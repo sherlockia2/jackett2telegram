@@ -1,0 +1,33 @@
+{
+    "name": "jackett2tg",
+    "description": "A Telegram bot for all your mirror needs",
+    "logo": "",
+    "keywords": [
+      "bot",
+      "telegram",
+      "python"
+    ],
+    "repository": "https://github.com/sherlockia2/jackett2telegram",
+    "website": "",
+    "success_url": "",
+    "stack": "container",
+    "env": {
+      "TOKEN": {
+        "description": "Get it from Botfather",
+        "required": true
+      },
+      "CHATID": {
+        "description": "",
+        "required": true
+      }
+    },
+      "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "10"
+      }
+    }
+  ]
+  }  
+    
