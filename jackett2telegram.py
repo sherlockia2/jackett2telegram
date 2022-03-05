@@ -524,8 +524,8 @@ def main():
     # Try to create a database if missing
     try:
         init_sqlite()
-    except sqlite3.OperationalError:
-        logging.exception("Fail trying to create the Database.")
+    except DatabaseError as error:
+        logging.exception(f"Error in DB connection: {error}")
         pass
     rss_load()
 
