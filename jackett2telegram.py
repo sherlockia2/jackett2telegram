@@ -61,7 +61,7 @@ def init_sqlite():
           )
           """
     c.execute(sql)
-    
+    logging.debug("Database created")
 
 def sqlite_connect():
     global conn
@@ -69,7 +69,6 @@ def sqlite_connect():
 
 
 def sqlite_load_all():
-    sqlite_connect()
     c = conn.cursor()
     c.execute("SELECT * FROM rss")
     rows = c.fetchall()
@@ -78,7 +77,6 @@ def sqlite_load_all():
 
 
 def sqlite_write(name: str, link: str, last_pubdate: str, last_items: str, is_down: int):
-    sqlite_connect()
     c = conn.cursor()
     values = [(name), (link), (last_pubdate), (last_items), (is_down)]
     c.execute(
@@ -528,6 +526,7 @@ def main():
     
     logging.info("Config=" + config_path)
     logging.info("DB-Config=" + db_path)
+    logging.info("DB-Url=" + dburl)
 
     # Try to create a database if missing
     try:
