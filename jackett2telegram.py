@@ -83,7 +83,7 @@ def sqlite_write(name: str, link: str, last_pubdate: str, last_items: str, is_do
     conn = connect(dburl)
     c = conn.cursor()
     values = (name, link, last_pubdate, last_items, is_down)
-    c.execute("REPLACE INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(%s,%s,%s,%s,%s)", values)
+    c.execute("INSERT INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(%s,%s,%s,%s,%s)", values)
     conn.commit()
     disconnect()
 
