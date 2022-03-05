@@ -57,7 +57,7 @@ def init_sqlite():
 
 def sqlite_connect():
     global conn
-    conn = connect(db_path, check_same_thread=False)
+    conn = connect(dburl)
 
 
 def sqlite_load_all():
