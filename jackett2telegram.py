@@ -77,6 +77,7 @@ def disconnect():
     conn.close()
 
 def sqlite_load_all():
+    conn = connect(dburl)
     c = conn.cursor()
     c.execute("SELECT * FROM rss")
     rows = c.fetchall()
@@ -85,12 +86,13 @@ def sqlite_load_all():
 
 
 def sqlite_write(name: str, link: str, last_pubdate: str, last_items: str, is_down: int):
+    conn = connect(dburl)
     c = conn.cursor()
     values = [(name), (link), (last_pubdate), (last_items), (is_down)]
     c.execute(
         '''REPLACE INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(?,?,?,?,?)''', values)
     conn.commit()
-    conn.close()
+    disconnect()
 
 
 # RSS
