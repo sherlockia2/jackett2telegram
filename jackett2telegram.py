@@ -52,8 +52,16 @@ def init_sqlite():
     logging.debug("Trying to create the Database")
     conn = connect(dburl)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS rss (name text PRIMARY KEY, link text, last_pubdate text, last_items text, is_down integer)''')
-
+    sql = """CREATE TABLE IF NOT EXISTS rss (
+             name text PRIMARY KEY,
+             link text,
+             last_pubdate text,
+             last_items text,
+             is_down integer
+          )
+          """
+    c.execute(sql)
+    
 
 def sqlite_connect():
     global conn
@@ -63,7 +71,7 @@ def sqlite_connect():
 def sqlite_load_all():
     sqlite_connect()
     c = conn.cursor()
-    c.execute('SELECT * FROM rss')
+    c.execute("SELECT * FROM rss")
     rows = c.fetchall()
     conn.close()
     return rows
