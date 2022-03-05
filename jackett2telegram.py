@@ -66,12 +66,6 @@ def init_sqlite():
     conn.commit()
     logging.info("Database created")
 
-'''
-def sqlite_connect():
-    global conn
-    conn = connect(dburl)
-'''
-
 def disconnect():
     c.close()
     conn.close()
@@ -89,8 +83,7 @@ def sqlite_write(name: str, link: str, last_pubdate: str, last_items: str, is_do
     conn = connect(dburl)
     c = conn.cursor()
     values = [(name), (link), (last_pubdate), (last_items), (is_down)]
-    c.execute(
-        '''REPLACE INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(?,?,?,?,?)''', values)
+    c.execute("REPLACE INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(?,?,?,?,?)", values)
     conn.commit()
     disconnect()
 
