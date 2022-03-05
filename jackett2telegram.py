@@ -516,6 +516,8 @@ def main():
         disable_web_page_preview=True,
         quote=True,
         parse_mode="MARKDOWNV2")
+    
+    logging.info("List: Indexer= " + config_path)
 
     # Try to create a database if missing
     try:
