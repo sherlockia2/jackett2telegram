@@ -2,6 +2,7 @@ import logging
 import requests
 import os
 import sqlite3
+from psycopg2 import connect, DatabaseError
 import string
 import unicodedata
 import xml.etree.ElementTree as ElementTree
@@ -32,8 +33,8 @@ token = os.environ['TOKEN'] if os.environ.get('TOKEN') else "<YOUR_TOKEN_HERE>"
 chatid = os.environ['CHATID'] if os.environ.get(
     'CHATID') else "<YOUR_CHATID_HERE>"
 delay = int(os.environ['DELAY']) if os.environ.get('DELAY') else 600
-log_level = levels.get(os.environ['LOG_LEVEL'].lower()) if os.environ.get(
-    'LOG_LEVEL') else logging.INFO
+dburl = os.environ['DATABASE_URL'] if os.environ.get('DATABASE_URL') else "<YOUR_URL_HERE>"
+log_level = levels.get(os.environ['LOG_LEVEL'].lower()) if os.environ.get('LOG_LEVEL') else logging.INFO
 
 ns = {'torznab': 'http://torznab.com/schemas/2015/feed'}
 rss_dict = {}
@@ -44,20 +45,19 @@ char_limit = 255
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=log_level)
 
-
 # SQLITE
 
 
 def init_sqlite():
     logging.debug("Trying to create the Database")
-    conn = sqlite3.connect(db_path)
+    conn = connect(dburl)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS rss (name text PRIMARY KEY, link text, last_pubdate text, last_items text, is_down integer)''')
 
 
 def sqlite_connect():
     global conn
-    conn = sqlite3.connect(db_path, check_same_thread=False)
+    conn = connect(db_path, check_same_thread=False)
 
 
 def sqlite_load_all():
@@ -77,6 +77,7 @@ def sqlite_write(name: str, link: str, last_pubdate: str, last_items: str, is_do
         '''REPLACE INTO rss (name,link,last_pubdate,last_items,is_down) VALUES(?,?,?,?,?)''', values)
     conn.commit()
     conn.close()
+
 
 # RSS
 
