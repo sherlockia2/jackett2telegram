@@ -517,7 +517,8 @@ def main():
         quote=True,
         parse_mode="MARKDOWNV2")
     
-    logging.info("List: Indexer= " + config_path)
+    logging.info("Config=" + config_path)
+    logging.info("DB-Config=" + db_path)
 
     # Try to create a database if missing
     try:
