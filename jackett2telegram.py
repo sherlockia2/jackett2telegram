@@ -50,6 +50,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 def init_sqlite():
     logging.debug("Trying to create the Database")
+    global conn
     conn = connect(dburl)
     c = conn.cursor()
     sql = """CREATE TABLE IF NOT EXISTS rss (
