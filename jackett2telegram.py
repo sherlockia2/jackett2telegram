@@ -52,6 +52,7 @@ def init_sqlite():
     logging.debug("Trying to create the Database")
     global conn
     conn = connect(dburl)
+    global c
     c = conn.cursor()
     sql = """CREATE TABLE IF NOT EXISTS rss (
              name text PRIMARY KEY,
@@ -62,18 +63,24 @@ def init_sqlite():
           )
           """
     c.execute(sql)
-    logging.debug("Database created")
+    conn.commit()
+    logging.info("Database created")
 
+'''
 def sqlite_connect():
     global conn
     conn = connect(dburl)
+'''
 
+def disconnect():
+    c.close()
+    conn.close()
 
 def sqlite_load_all():
     c = conn.cursor()
     c.execute("SELECT * FROM rss")
     rows = c.fetchall()
-    conn.close()
+    disconnect()
     return rows
 
 
